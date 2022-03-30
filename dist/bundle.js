@@ -690,9 +690,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ProductManagementComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductManagementComponent */ "./src/components/ProductManagementComponent.js");
-/* harmony import */ var _PurchaseProductComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PurchaseProductComponent */ "./src/components/PurchaseProductComponent.js");
-/* harmony import */ var _RechargeChangeComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RechargeChangeComponent */ "./src/components/RechargeChangeComponent.js");
+/* harmony import */ var _lib_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/router */ "./src/lib/router.js");
+/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/constants */ "./src/utils/constants.ts");
+/* harmony import */ var _ProductManagementComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductManagementComponent */ "./src/components/ProductManagementComponent.js");
+/* harmony import */ var _PurchaseProductComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PurchaseProductComponent */ "./src/components/PurchaseProductComponent.js");
+/* harmony import */ var _RechargeChangeComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RechargeChangeComponent */ "./src/components/RechargeChangeComponent.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -731,14 +733,18 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
+
+
 var _ProductManagementComponent = /*#__PURE__*/new WeakMap();
 
 var _PurchaseProductComponent = /*#__PURE__*/new WeakMap();
 
 var _RechargeChangeComponent = /*#__PURE__*/new WeakMap();
 
+var _currentSectionName = /*#__PURE__*/new WeakMap();
+
 var VendingMachineComponent = /*#__PURE__*/function () {
-  function VendingMachineComponent(currentSectionName) {
+  function VendingMachineComponent() {
     var _this = this;
 
     _classCallCheck(this, VendingMachineComponent);
@@ -760,32 +766,44 @@ var VendingMachineComponent = /*#__PURE__*/function () {
 
     _defineProperty(this, "$app", void 0);
 
+    _classPrivateFieldInitSpec(this, _currentSectionName, {
+      writable: true,
+      value: void 0
+    });
+
     _defineProperty(this, "onClickNavigation", function (e) {
       var id = e.target.id;
+      /** history가 중복해서 쌓이지 않게 관리 */
 
-      if (id === 'manage-product-tab') {
-        history.pushState(null, '', '/');
+      if (id === 'manage-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'manage') {
+        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+          path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE
+        }, 'home');
 
-        _this.showSection('');
+        _this.showSection(_utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE);
       }
 
-      if (id === 'recharge-change-tab') {
-        history.pushState(null, '', '/recharge');
+      if (id === 'recharge-change-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'recharge') {
+        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+          path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE
+        }, 'recharge');
 
-        _this.showSection('recharge');
+        _this.showSection(_utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE);
       }
 
-      if (id === 'purchase-product-tab') {
-        history.pushState(null, '', '/purchase');
+      if (id === 'purchase-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'purchase') {
+        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+          path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE
+        }, 'purchase');
 
-        _this.showSection('purchase');
+        _this.showSection(_utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE);
       }
     });
 
     this.$app = document.querySelector('#app');
     this.initDOM();
     this.initChildComponents();
-    this.showSection(currentSectionName);
+    this.showSection(localStorage.getItem('current-section'));
     this.$tabNav.addEventListener('click', this.onClickNavigation);
   }
 
@@ -802,16 +820,20 @@ var VendingMachineComponent = /*#__PURE__*/function () {
   }, {
     key: "initChildComponents",
     value: function initChildComponents() {
-      _classPrivateFieldSet(this, _ProductManagementComponent, new _ProductManagementComponent__WEBPACK_IMPORTED_MODULE_0__["default"](this.$app));
+      _classPrivateFieldSet(this, _ProductManagementComponent, new _ProductManagementComponent__WEBPACK_IMPORTED_MODULE_2__["default"](this.$app));
 
-      _classPrivateFieldSet(this, _PurchaseProductComponent, new _PurchaseProductComponent__WEBPACK_IMPORTED_MODULE_1__["default"](this.$app));
+      _classPrivateFieldSet(this, _PurchaseProductComponent, new _PurchaseProductComponent__WEBPACK_IMPORTED_MODULE_3__["default"](this.$app));
 
-      _classPrivateFieldSet(this, _RechargeChangeComponent, new _RechargeChangeComponent__WEBPACK_IMPORTED_MODULE_2__["default"](this.$app));
+      _classPrivateFieldSet(this, _RechargeChangeComponent, new _RechargeChangeComponent__WEBPACK_IMPORTED_MODULE_4__["default"](this.$app));
     }
   }, {
     key: "showSection",
     value: function showSection(name) {
-      if (name === '') {
+      _classPrivateFieldSet(this, _currentSectionName, name);
+
+      localStorage.setItem('current-section', _classPrivateFieldGet(this, _currentSectionName));
+
+      if (name === _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE) {
         _classPrivateFieldGet(this, _RechargeChangeComponent).hide();
 
         _classPrivateFieldGet(this, _PurchaseProductComponent).hide();
@@ -821,7 +843,7 @@ var VendingMachineComponent = /*#__PURE__*/function () {
         this.focusTabButton('manageProduct');
       }
 
-      if (name === 'recharge') {
+      if (name === _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE) {
         _classPrivateFieldGet(this, _PurchaseProductComponent).hide();
 
         _classPrivateFieldGet(this, _ProductManagementComponent).hide();
@@ -831,7 +853,7 @@ var VendingMachineComponent = /*#__PURE__*/function () {
         this.focusTabButton('rechargeChange');
       }
 
-      if (name === 'purchase') {
+      if (name === _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE) {
         _classPrivateFieldGet(this, _ProductManagementComponent).hide();
 
         _classPrivateFieldGet(this, _RechargeChangeComponent).hide();
@@ -863,6 +885,49 @@ var VendingMachineComponent = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendingMachineComponent);
+
+/***/ }),
+
+/***/ "./src/lib/router.js":
+/*!***************************!*\
+  !*** ./src/lib/router.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Router = /*#__PURE__*/function () {
+  function Router() {
+    _classCallCheck(this, Router);
+
+    _defineProperty(this, "routes", {
+      home: '/',
+      recharge: '/recharge',
+      purchase: '/purchase'
+    });
+  }
+
+  _createClass(Router, [{
+    key: "pushState",
+    value: function pushState(data, name) {
+      history.pushState(data, '', this.routes[name]);
+    }
+  }]);
+
+  return Router;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new Router());
 
 /***/ }),
 
@@ -1804,7 +1869,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MONEY_DIVIDE_STANDARD": () => (/* binding */ MONEY_DIVIDE_STANDARD),
 /* harmony export */   "QUANTITY_RANGE": () => (/* binding */ QUANTITY_RANGE),
 /* harmony export */   "CHANGE_RANGE": () => (/* binding */ CHANGE_RANGE),
-/* harmony export */   "ACTION_TYPES": () => (/* binding */ ACTION_TYPES)
+/* harmony export */   "ACTION_TYPES": () => (/* binding */ ACTION_TYPES),
+/* harmony export */   "TAB_NAME": () => (/* binding */ TAB_NAME)
 /* harmony export */ });
 var COIN_VALUES = {
     coin500: 500,
@@ -1848,6 +1914,11 @@ var ACTION_TYPES = {
     EDIT_PRODUCT: 'editProduct',
     DELETE_PRODUCT: 'deleteProduct',
     RECHARGE_CHANGE: 'rechargeChange'
+};
+var TAB_NAME = {
+    MANAGE: 'manage-tab',
+    RECHARGE: 'recharge-tab',
+    PURCHASE: 'purchase-tab'
 };
 
 
@@ -2026,12 +2097,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_empty_img_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../images/empty-img.png */ "./images/empty-img.png");
 /* harmony import */ var _src_styles_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/styles/index.css */ "./src/styles/index.css");
 /* harmony import */ var _src_components_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src/components/index */ "./src/components/index.js");
+/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/constants */ "./src/utils/constants.ts");
 
 
 
 
-var currentSectionName = window.location.pathname.slice(1);
-new _src_components_index__WEBPACK_IMPORTED_MODULE_2__["default"](currentSectionName);
+
+var vendingMachineComponent = new _src_components_index__WEBPACK_IMPORTED_MODULE_2__["default"]();
+window.addEventListener('popstate', function (e) {
+    var _a;
+    var state = e.state;
+    vendingMachineComponent.showSection((_a = state === null || state === void 0 ? void 0 : state.path) !== null && _a !== void 0 ? _a : _utils_constants__WEBPACK_IMPORTED_MODULE_3__.TAB_NAME.MANAGE);
+});
 
 })();
 
