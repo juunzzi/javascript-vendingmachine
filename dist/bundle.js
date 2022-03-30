@@ -690,7 +690,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _lib_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/router */ "./src/lib/router.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./src/router/index.js");
 /* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/constants */ "./src/utils/constants.ts");
 /* harmony import */ var _ProductManagementComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductManagementComponent */ "./src/components/ProductManagementComponent.js");
 /* harmony import */ var _PurchaseProductComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PurchaseProductComponent */ "./src/components/PurchaseProductComponent.js");
@@ -775,24 +775,24 @@ var VendingMachineComponent = /*#__PURE__*/function () {
       var id = e.target.id;
       /** history가 중복해서 쌓이지 않게 관리 */
 
-      if (id === 'manage-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'manage') {
-        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+      if (id === 'manage-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE) {
+        _router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
           path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE
         }, 'home');
 
         _this.showSection(_utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE);
       }
 
-      if (id === 'recharge-change-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'recharge') {
-        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+      if (id === 'recharge-change-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE) {
+        _router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
           path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE
         }, 'recharge');
 
         _this.showSection(_utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE);
       }
 
-      if (id === 'purchase-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== 'purchase') {
-        _lib_router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
+      if (id === 'purchase-product-tab' && _classPrivateFieldGet(_this, _currentSectionName) !== _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE) {
+        _router__WEBPACK_IMPORTED_MODULE_0__["default"].pushState({
           path: _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE
         }, 'purchase');
 
@@ -810,12 +810,10 @@ var VendingMachineComponent = /*#__PURE__*/function () {
   _createClass(VendingMachineComponent, [{
     key: "initDOM",
     value: function initDOM() {
+      var _this$tabButtonMap;
+
       this.$tabNav = this.$app.querySelector('#tab-nav');
-      this.tabButtonMap = {
-        manageProduct: this.$app.querySelector('#manage-product-tab'),
-        rechargeChange: this.$app.querySelector('#recharge-change-tab'),
-        purchaseProduct: this.$app.querySelector('#purchase-product-tab')
-      };
+      this.tabButtonMap = (_this$tabButtonMap = {}, _defineProperty(_this$tabButtonMap, _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.MANAGE, this.$app.querySelector('#manage-product-tab')), _defineProperty(_this$tabButtonMap, _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE, this.$app.querySelector('#recharge-change-tab')), _defineProperty(_this$tabButtonMap, _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE, this.$app.querySelector('#purchase-product-tab')), _this$tabButtonMap);
     }
   }, {
     key: "initChildComponents",
@@ -839,8 +837,6 @@ var VendingMachineComponent = /*#__PURE__*/function () {
         _classPrivateFieldGet(this, _PurchaseProductComponent).hide();
 
         _classPrivateFieldGet(this, _ProductManagementComponent).show();
-
-        this.focusTabButton('manageProduct');
       }
 
       if (name === _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.RECHARGE) {
@@ -849,8 +845,6 @@ var VendingMachineComponent = /*#__PURE__*/function () {
         _classPrivateFieldGet(this, _ProductManagementComponent).hide();
 
         _classPrivateFieldGet(this, _RechargeChangeComponent).show();
-
-        this.focusTabButton('rechargeChange');
       }
 
       if (name === _utils_constants__WEBPACK_IMPORTED_MODULE_1__.TAB_NAME.PURCHASE) {
@@ -859,9 +853,9 @@ var VendingMachineComponent = /*#__PURE__*/function () {
         _classPrivateFieldGet(this, _RechargeChangeComponent).hide();
 
         _classPrivateFieldGet(this, _PurchaseProductComponent).show();
-
-        this.focusTabButton('purchaseProduct');
       }
+
+      this.focusTabButton(name);
     }
   }, {
     key: "focusTabButton",
@@ -888,10 +882,10 @@ var VendingMachineComponent = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/lib/router.js":
-/*!***************************!*\
-  !*** ./src/lib/router.js ***!
-  \***************************/
+/***/ "./src/router/index.js":
+/*!*****************************!*\
+  !*** ./src/router/index.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
