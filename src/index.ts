@@ -1,8 +1,7 @@
 import '../images/empty-img.png';
 import '../src/styles/index.css';
-import '../src/components/index';
-import VendingMachineComponent from '../src/components/index';
-import { TAB_NAME } from './utils/constants';
+import AppComponent from './components';
+const appComponent = new AppComponent();
 
 const vendingMachineComponent = new VendingMachineComponent();
 window.addEventListener('popstate', e => {
